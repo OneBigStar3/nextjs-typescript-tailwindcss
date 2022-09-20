@@ -133,16 +133,6 @@ export const menuItems = [
     icon: <FarmIcon />,
     href: routes.liquidity,
   },
-  // {
-  //   name: 'Charts',
-  //   icon: <FarmIcon />,
-  //   href: routes.charts,
-  // },
-  // {
-  //   name: 'LineChart',
-  //   icon: <FarmIcon />,
-  //   href: routes.linechart,
-  // },
 ]
 
 type SidebarProps = {

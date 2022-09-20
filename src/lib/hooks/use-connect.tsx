@@ -9,6 +9,7 @@ export const WalletContext = createContext<any>({});
 export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const [address, setAddress] = useState<string | undefined>(undefined);
   const [balance, setBalance] = useState<string | undefined>(undefined);
+  const [chainId, setChainID] = useState<number | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const web3Modal =
@@ -37,6 +38,8 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   const setWalletAddress = async (provider: any) => {
     try {
       const signer = provider.getSigner();
+      const { chainId } = await provider.getNetwork();
+      setChainID(chainId)
       if (signer) {
         const web3Address = await signer.getAddress();
         setAddress(web3Address);
@@ -89,6 +92,41 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const swtichNetwork = async () => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0xa86a" }],
+      });
+    } catch (switchError) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0xa86a",
+                chainName: "Avalanche C-Chain",
+                nativeCurrency: {
+                  name: "AVAX",
+                  symbol: "AVAX",
+                  decimals: 18,
+                },
+                rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"] /* ... */,
+                blockExplorerUrls: ["https://snowtrace.io"],
+              },
+            ],
+          });
+        } catch (addError) {
+          // handle "add" error
+        }
+      }
+      // handle other "switch" errors
+    }
+    window.location.reload();
+  };
+
   const subscribeProvider = async (connection: any) => {
     connection.on('close', () => {
       disconnectWallet();
@@ -102,17 +140,29 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
         disconnectWallet();
       }
     });
+    connection.on('chainChanged', async (accounts: string[]) => {
+      if (accounts?.length) {
+        const provider = new ethers.providers.Web3Provider(connection);
+        await provider.send("eth_requestAccounts", []);
+        const { chainId } = await provider.getNetwork()
+        setChainID(chainId)
+      } else {
+        disconnectWallet();
+      }
+    });
   };
 
   return (
     <WalletContext.Provider
       value={{
         address,
+        chainId,
         balance,
         loading,
         error,
         connectToWallet,
         disconnectWallet,
+        swtichNetwork
       }}
     >
       {children}

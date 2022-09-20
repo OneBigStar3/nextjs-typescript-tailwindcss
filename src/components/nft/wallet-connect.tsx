@@ -10,17 +10,30 @@ import { useContext } from 'react';
 
 export default function WalletConnect() {
   const { openModal } = useModal();
-  const { address, disconnectWallet, balance } = useContext(WalletContext);
+  const { address, disconnectWallet, balance, chainId, swtichNetwork } = useContext(WalletContext);
   return (
     <>
       {address ? (
-        <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
+        <div className="flex items-center gap-3 sm:gap-6 lg:gap-3">
+          <div className="relative">
+            {chainId == 43114 ? <Menu>
+              <Menu.Button className="block h-10 w-[130px] text-sm overflow-hidden rounded-full border-2 border-solid border-white bg-gradient-to-r from-[#c62828] to-[#c62828] shadow-main transition-all hover:-translate-y-0.5 hover:shadow-large dark:border-gray-700">
+                Avalanche
+              </Menu.Button>
+            </Menu> : <Menu>
+              <Menu.Button className="block h-10 w-[130px] text-sm overflow-hidden rounded-full border-2 border-solid border-white bg-gradient-to-r from-[#ab3c00] to-[#852504] shadow-main transition-all hover:-translate-y-0.5 hover:shadow-large dark:border-gray-700"
+                onClick={() => swtichNetwork()}
+              >
+                Wrong Network
+              </Menu.Button>
+            </Menu>}
+
+          </div>
+
           <div className="relative">
             <Menu>
-              <Menu.Button className="block h-10 w-100 overflow-hidden rounded-full border-3 border-solid border-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-main transition-all hover:-translate-y-0.5 hover:shadow-large dark:border-gray-700 sm:h-12 sm:w-12">
-                {address.slice(0, 6)}
-                {'...'}
-                {address.slice(address.length - 4)}
+              <Menu.Button className="block h-10 w-[140px] text-sm overflow-hidden rounded-full border-2 border-solid border-white bg-gradient-to-r from-[#1e40af] to-[#1e3a8a] shadow-main transition-all hover:-translate-y-0.5 hover:shadow-large dark:border-gray-700">
+                {address.slice(0, 5)}{'...'}{address.slice(address.length - 4)}
               </Menu.Button>
               <Transition
                 enter="ease-out duration-300"
@@ -73,9 +86,6 @@ export default function WalletConnect() {
             </Menu>
           </div>
 
-          {/* <ActiveLink href="/create-nft">
-            <Button className="shadow-main hover:shadow-large">CREATE</Button>
-          </ActiveLink> */}
         </div>
       ) : (
         <Button
@@ -83,7 +93,7 @@ export default function WalletConnect() {
           size="small"
           shape="pill"
           fullWidth={true}
-          className=" dark:bg-gradient-to-r dark:from-cyan-400 dark:to-blue-500 mt-1 uppercase xs:tracking-widest"
+          className="bg-gradient-to-r from-[#312e81] to-[#1e3a8a] mt-1 uppercase xs:tracking-widest"
           onClick={() => openModal('WALLET_CONNECT_VIEW')}
         >
           CONNECT

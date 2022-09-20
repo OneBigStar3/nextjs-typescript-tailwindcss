@@ -4,8 +4,6 @@ const routes = {
   retro: '/retro',
   swap: '/swap',
   limit: '/limit',
-  charts: '/charts',
-  linechart: '/linechart',
   bridge: '/bridge',
   liquidity: '/liquidity',
   liquidityPosition: '/liquidity-position',
