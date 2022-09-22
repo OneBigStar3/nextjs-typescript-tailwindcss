@@ -1,5 +1,6 @@
 import { useWindowScroll } from '@/lib/hooks/use-window-scroll';
 import Logo from '@/components/ui/logo';
+import BgImg from '@/components/icons/bgImg';
 import Button from '@/components/ui/button';
 import { FlashIcon } from '@/components/icons/flash';
 import { SearchFrom } from '@/components/search/view';
@@ -69,7 +70,7 @@ export function Header() {
     <nav
       className={`fixed top-0 z-30 myBox flex w-full items-center justify-between px-4 transition-all duration-300 ltr:right-0 rtl:left-0 sm:px-6 lg:px-8 xl:px-10 3xl:px-12 ${
         // isMounted && windowScroll.y > 10
-           'h-12 bg-gradient-to-b from-white to-white/80 shadow-card backdrop-blur dark:from-[#161b1d] dark:to-[#161b1d]/80 sm:h-16'
+           'h-12  shadow-card backdrop-blur dark:bg-opacity-100 sm:h-16'
           // : 'h-12 bg-body dark:bg-dark sm:h-20'
       }`}
     >
@@ -100,7 +101,8 @@ export default function Layout({
   children,
 }: React.PropsWithChildren<LayoutProps>) {
   return (
-    <div className="min-w-fit w-full min-h-screen bg-light-100 dark:bg-gradient-to-r dark:from-[#0f0f0e] dark:via-stone-900 dark:to-[#041112] flex flex-col">
+    // <div className="min-w-fit w-full min-h-screen bg-light-100 dark:bg-gradient-to-r dark:from-[#0f0f0e] dark:via-stone-900 dark:to-[#041112] flex flex-col">
+    <div className="min-w-fit w-full min-h-screen bg-light-100 bg-[#7F30FF] flex flex-col" style={{backgroundImage: BgImg}}>
       <Header />
       <main className="mx-auto min-w-fit mb-12 pt-16 px-10 sm:pt-24 " >
         {children}
