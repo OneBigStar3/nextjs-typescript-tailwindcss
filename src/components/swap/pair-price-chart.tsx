@@ -15,8 +15,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import axios from 'axios';
-// import { atom, useAtom } from 'jotai';
-// import { useMarketdataAtom } from '@/components/swap/market-data';
 
 const plugin = {
   id: 'custom_canvas_background_color',
@@ -52,7 +50,6 @@ ChartJS.register(
 interface PairPriceCharTypes {
   tokenIn: string;
   tokenOut: string;
-  hours: string;
 }
 
 const options = {
@@ -74,12 +71,10 @@ const options = {
 export default function PairPriceChart({
   tokenIn,
   tokenOut,
-  hours,
 }: PairPriceCharTypes) {
   const { coinslist, getCoinDecimals, getCoinName, } = useContext(HookContext);
-  // const {marketdataAtom} = useMarketdataAtom();
-  // let hours = marketdataAtom?.init.hours;
-  
+
+  const [hours, setHours] = useState('24');
   const [timeprices1, setTimePrices1] = useState([]);
   const [timeprices2, setTimePrices2] = useState([]);
   const [bgStatus, setBgStatus] = useState(0);
@@ -116,7 +111,7 @@ export default function PairPriceChart({
       }
     };
     getPrice();
-  }, [hours, new_tokenIn, new_tokenOut]);
+  }, [hours, tokenIn, tokenOut]);
 
   useEffect(() => {
     if (!timeprices1 || !timeprices2) return;
@@ -199,10 +194,64 @@ export default function PairPriceChart({
   return (
     <>
       {/* Timeframe button */}
-      {/* <div className="mt-5 mb-2 flex flex-row-reverse">
-        
-      </div> */}
-      
+      <div className="mt-5 mb-2 flex flex-row-reverse">
+        <div className="inline-flex rounded-md shadow-sm mr-3" role="group">
+          <button
+            type="button"
+            className={cn("rounded-l-lg border border-gray-900 bg-transparent py-1 px-2 text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:bg-gray-900 focus:text-white focus:ring-gray-500 dark:border-[#374151] dark:text-white dark:hover:bg-gray-700 dark:hover:text-white",
+              hours === '1' ? 'dark:bg-cyan-600/50' : 'dark:focus:bg-gray-700'
+            )}
+            onClick={() => { setHours('1'); }}
+          >
+            1H
+          </button>
+          <button
+            type="button"
+            className={cn("border-t border-b border-r border-gray-900 bg-transparent py-1 px-2 text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:bg-gray-900 focus:text-white focus:ring-gray-500 dark:border-[#374151] dark:text-white dark:hover:bg-gray-700 dark:hover:text-white",
+              hours === '4' ? 'dark:bg-cyan-600/50' : 'dark:focus:bg-gray-700'
+            )}
+            onClick={() => { setHours('4'); }}
+          >
+            4H
+          </button>
+          <button
+            type="button"
+            className={cn("border-t border-b border-r border-gray-900 bg-transparent py-1 px-2 text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:bg-gray-900 focus:text-white focus:ring-gray-500 dark:border-[#374151] dark:text-white dark:hover:bg-gray-700 dark:hover:text-white",
+              hours === '24' ? 'dark:bg-cyan-600/50' : 'dark:focus:bg-gray-700'
+            )}
+            onClick={() => { setHours('24'); }}
+          >
+            1D
+          </button>
+          <button
+            type="button"
+            className={cn("border-t border-b border-r border-gray-900 bg-transparent py-1 px-2 text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:bg-gray-900 focus:text-white focus:ring-gray-500 dark:border-[#374151] dark:text-white dark:hover:bg-gray-700 dark:hover:text-white",
+              hours === '168' ? 'dark:bg-cyan-600/50' : 'dark:focus:bg-gray-700'
+            )}
+            onClick={() => { setHours('168'); }}
+          >
+            1W
+          </button>
+          <button
+            type="button"
+            className={cn("border-t border-b border-gray-900 bg-transparent py-1 px-2 text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:bg-gray-900 focus:text-white focus:ring-gray-500 dark:border-[#374151] dark:text-white dark:hover:bg-gray-700 dark:hover:text-white",
+              hours === '720' ? 'dark:bg-cyan-600/50' : 'dark:focus:bg-gray-700'
+            )}
+            onClick={() => { setHours('720'); }}
+          >
+            1M
+          </button>
+          <button
+            type="button"
+            className={cn("rounded-r-md border border-gray-900 bg-transparent py-1 px-2 text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:bg-gray-900 focus:text-white focus:ring-gray-500 dark:border-[#374151] dark:text-white dark:hover:bg-gray-700 dark:hover:text-white",
+              hours === '4320' ? 'dark:bg-cyan-600/50' : 'dark:focus:bg-gray-700'
+            )}
+            onClick={() => { setHours('4320'); }}
+          >
+            6M
+          </button>
+        </div>
+      </div>
       {/* Chart */}
       <Line options={options} data={data} />
     </>
