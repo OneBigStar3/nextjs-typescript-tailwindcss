@@ -1,6 +1,6 @@
 import { useWindowScroll } from '@/lib/hooks/use-window-scroll';
 import Logo from '@/components/ui/logo';
-import { BgImg } from '@/components/icons/bgImg';
+import BgImg from '@/components/icons/bgImg';
 import Button from '@/components/ui/button';
 import { FlashIcon } from '@/components/icons/flash';
 import { SearchFrom } from '@/components/search/view';
@@ -68,10 +68,10 @@ export function Header() {
 
   return (
     <nav
-      className={`myBox fixed top-0 z-30 flex w-full items-center justify-between px-4 transition-all duration-300 ltr:right-0 rtl:left-0 sm:px-6 lg:px-8 xl:px-10 3xl:px-12 ${
+      className={`fixed top-0 z-30 myBox flex w-full items-center justify-between px-4 transition-all duration-300 ltr:right-0 rtl:left-0 sm:px-6 lg:px-8 xl:px-10 3xl:px-12 ${
         // isMounted && windowScroll.y > 10
-        'h-12  shadow-card backdrop-blur dark:bg-opacity-100 sm:h-16'
-        // : 'h-12 bg-body dark:bg-dark sm:h-20'
+           'h-12  shadow-card backdrop-blur dark:bg-opacity-100 sm:h-16'
+          // : 'h-12 bg-body dark:bg-dark sm:h-20'
       }`}
     >
       {/* <div className="w-80 2xl:w-[368px]"></div> */}
@@ -81,7 +81,7 @@ export function Header() {
             isOpen={isOpen}
             onClick={() => openDrawer('DRAWER_MENU')}
             color="white"
-            className="dark:bg-red-dark shadow-main dark:border dark:border-solid dark:border-gray-700 dark:text-white"
+            className="shadow-main dark:border dark:border-solid dark:border-gray-700 dark:bg-red-dark dark:text-white"
           />
         </div>
         <Logo />
@@ -102,12 +102,9 @@ export default function Layout({
 }: React.PropsWithChildren<LayoutProps>) {
   return (
     // <div className="min-w-fit w-full min-h-screen bg-light-100 dark:bg-gradient-to-r dark:from-[#0f0f0e] dark:via-stone-900 dark:to-[#041112] flex flex-col">
-    <div
-      className="bg-light-100 flex min-h-screen w-full min-w-fit flex-col bg-[#7F30FF]"
-      style={{ backgroundImage: BgImg }}
-    >
+    <div className="min-w-fit w-full min-h-screen bg-light-100 bg-[#7F30FF] flex flex-col" style={{backgroundImage: BgImg}}>
       <Header />
-      <main className="mx-auto mb-12 min-w-fit px-10 pt-16 sm:pt-24 ">
+      <main className="mx-auto min-w-fit mb-12 pt-16 px-10 sm:pt-24 " >
         {children}
       </main>
     </div>
