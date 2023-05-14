@@ -106,8 +106,9 @@ export default function Layout({
     <div className="bg-light-100 flex min-h-screen w-full min-w-fit flex-col dark:bg-gradient-to-r dark:from-[#0f0f0e] dark:via-stone-900 dark:to-[#041112]">
       {/* <div className="min-w-fit w-full min-h-screen bg-light-100 dark:bg-gradient-to-r dark:from-[#0f0f0e] dark:via-stone-900 dark:to-[#041112] flex flex-col"> */}
       <div
-      // className="bg-light-100 flex min-h-screen w-full min-w-fit flex-col bg-[#7F30FF]"
-      // style={{ backgroundImage: BgImg }}
+        className="min-w-fit"
+        // className="bg-light-100 flex min-h-screen w-full min-w-fit flex-col bg-[#7F30FF]"
+        // style={{ backgroundImage: BgImg }}
       >
         <Header />
         <main className="mx-auto mb-12 min-w-fit px-10 pt-16 sm:pt-24 ">
